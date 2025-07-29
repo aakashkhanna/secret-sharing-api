@@ -2,13 +2,13 @@ import boto3
 import uuid
 from datetime import datetime, timedelta
 import json
-from secret_sharing_api.models.create_secret import CreateSecretRequest
-from secret_sharing_api.models.secret import Secret
-from secret_sharing_api.services.config_service import get_configs
+from secret_sharing_api.models.secret import CreateSecretRequest
+from secret_sharing_api.models.dynamo import Secret
+from secret_sharing_api.services.config_service import ConfigService
 
 class DynamoDataService():
     def __init__(self, dynamo_db_client = None):
-        self.config = get_configs()
+        self.config = ConfigService.get_dynamo_configs()
         if dynamo_db_client is None:
             self.dynamo_db_client =  boto3.resource(
                 'dynamodb', 
@@ -17,12 +17,12 @@ class DynamoDataService():
                 aws_access_key_id=self.config.aws_access_key_id,
                 aws_secret_access_key=self.config.aws_secret_access_key) 
     
-    def get_secrets_table(self):
+    def _get_secrets_table(self):
         table = self.dynamo_db_client.Table(self.config.aws_dynamo_name)
         return table
 
     def add_secret(self, request: CreateSecretRequest):
-        table = self.get_secrets_table()
+        table = self._get_secrets_table()
         secret_object = Secret(
             pk = "secret",
             sk =str(uuid.uuid4()),
@@ -33,7 +33,7 @@ class DynamoDataService():
         return secret_object
     
     def get_secret(self, token: str):
-        table = self.get_secrets_table()
+        table = self._get_secrets_table()
         response = table.get_item(
             Key={'pk':'secret','sk':token}
         )

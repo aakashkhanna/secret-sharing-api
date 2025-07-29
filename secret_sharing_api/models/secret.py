@@ -7,4 +7,7 @@ class CreateSecretRequest(BaseModel):
 
 class CreateSecretResponse(BaseModel):
     secret_identifier: str
-    expiry: datetime
+    ttl: int
+
+class GetSecretResponse(BaseModel):
+    secret: str
