@@ -1,17 +1,13 @@
 from datetime import datetime
 from pydantic import BaseModel
 
-class Secret(BaseModel):
-    pk: str
-    sk: str
+class CreateSecretRequest(BaseModel):
     secret: str
-    expiry: datetime
+    ttl: int
 
-    class Config:
-        json_encoders = {
-            datetime: lambda v: v.isoformat()
-        }
+class CreateSecretResponse(BaseModel):
+    secret_identifier: str
+    ttl: int
 
-        json_decoders = {
-            datetime: lambda v: datetime.fromisoformat(v)
-        }
+class GetSecretResponse(BaseModel):
+    secret: str
