@@ -2,7 +2,7 @@
 
 A lightweight FastAPI-based service to securely store and retrieve secrets using one-time tokens. Secrets are stored temporarily with TTL (Time-To-Live) and are deleted after first access.
 
-🔗 **Live Demo**: [https://secret-sharing-api-aakashkhanna3051-ova9fte2.leapcell.dev/docs](https://secret-sharing-api-aakashkhanna3051-ova9fte2.leapcell.dev/docs)
+🔗 **Live Demo**: [https://secret-sharing-api.leapcell.app/docs](https://secret-sharing-api.leapcell.app/docs)
 
 
 ---
