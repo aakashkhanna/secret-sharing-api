@@ -4,11 +4,11 @@ from datetime import datetime, timedelta
 import json
 from secret_sharing_api.models.secret import CreateSecretRequest
 from secret_sharing_api.models.dynamo import Secret
-from secret_sharing_api.services.config_service import get_configs
+from secret_sharing_api.services.config_service import ConfigService
 
 class DynamoDataService():
     def __init__(self, dynamo_db_client = None):
-        self.config = get_configs()
+        self.config = ConfigService.get_dynamo_configs()
         if dynamo_db_client is None:
             self.dynamo_db_client =  boto3.resource(
                 'dynamodb', 
