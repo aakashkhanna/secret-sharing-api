@@ -6,11 +6,11 @@ from fastapi import FastAPI, HTTPException
 from secret_sharing_api.services.redis_data_service import RedisDataService
 app = FastAPI()
 
-data_service = RedisDataService(ConfigService.get_redis_configs())
 
 @app.post("/post-secret/")
 def add_secret(request: CreateSecretRequest):
     try:
+        data_service = RedisDataService(ConfigService.get_redis_configs())
         data_service_response = data_service.add_secret(request=request)
         response = CreateSecretResponse(secret_identifier=data_service_response.token, ttl=data_service_response.ttl)
         return response
@@ -20,6 +20,7 @@ def add_secret(request: CreateSecretRequest):
 @app.get("/get-secret/{token}")
 def read_secret(token: str):
     try:
+        data_service = RedisDataService(ConfigService.get_redis_configs())
         data_service_response = data_service.get_secret(token=token)
         if data_service_response is None:
             raise HTTPException(404)
